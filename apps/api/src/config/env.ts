@@ -5,7 +5,10 @@ const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(4000),
   DATABASE_URL: z.string().url(),
   REDIS_URL: z.string().url().default('redis://localhost:6379'),
+
   NEXTAUTH_URL: z.string().url().default('http://localhost:3000'),
+  AUTH_SECRET: z.string().min(32),
+
   INTERNAL_API_SECRET: z.string().min(16),
   R2_ENDPOINT: z.string().url(),
   R2_ACCESS_KEY_ID: z.string().min(1),
