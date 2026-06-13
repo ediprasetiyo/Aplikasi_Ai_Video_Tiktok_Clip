@@ -1,0 +1,41 @@
+{
+  "name": "tiktok-clip-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=18.18.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "build": "turbo run build --filter=!@tiktok-clip/worker",
+    "dev": "turbo run dev --filter=!@tiktok-clip/worker",
+    "lint": "turbo run lint --filter=!@tiktok-clip/worker",
+    "typecheck": "turbo run typecheck --filter=!@tiktok-clip/worker",
+    "test": "turbo run test --filter=!@tiktok-clip/worker",
+    "worker:dev": "pnpm --filter @tiktok-clip/worker run dev",
+    "worker:test": "pnpm --filter @tiktok-clip/worker run test",
+    "worker:lint": "pnpm --filter @tiktok-clip/worker run lint",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\" --ignore-path .gitignore",
+    "db:generate": "pnpm --filter @tiktok-clip/api run prisma:generate",
+    "db:migrate": "pnpm --filter @tiktok-clip/api run prisma:migrate",
+    "db:studio": "pnpm --filter @tiktok-clip/api run prisma:studio",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:reset": "docker compose down -v && docker compose up -d"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "prettier": "^3.4.2",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2"
+  },
+  "pnpm": {
+    "supportedArchitectures": {
+      "os": ["win32", "linux", "darwin"],
+      "cpu": ["x64", "arm64"]
+    }
+  }
+}

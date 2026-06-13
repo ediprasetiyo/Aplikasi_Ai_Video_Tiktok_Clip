@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String     @id @default(cuid())
+  email         String     @unique
+  name          String?
+  emailVerified DateTime?
+  totpSecret    String?
+  jobs          Job[]
+  auditLogs     AuditLog[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+model Job {
+  id             String    @id @default(cuid())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  sourceType     SourceType
+  sourceUrl      String?
+  sourceKey      String?
+  sourceTitle    String?
+  sourceDuration Int?
+
+  config         Json
+  status         JobStatus @default(QUEUED)
+  progress       Int       @default(0)
+  errorMessage   String?
+
+  clips          Clip[]
+  startedAt      DateTime?
+  completedAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([userId, status])
+  @@index([status, createdAt])
+}
+
+model Clip {
+  id           String   @id @default(cuid())
+  jobId        String
+  job          Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  startTime    Float
+  endTime      Float
+  duration     Float
+  viralScore   Int
+  reason       String
+  hookLine     String?
+
+  videoKey     String
+  thumbnailKey String?
+  subtitleKey  String?
+
+  createdAt    DateTime @default(now())
+  expiresAt    DateTime
+
+  @@index([jobId, viralScore])
+  @@index([expiresAt])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String
+  resource  String?
+  metadata  Json?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([action, createdAt])
+}
+
+enum SourceType {
+  UPLOAD
+  URL
+}
+
+enum JobStatus {
+  QUEUED
+  DOWNLOADING
+  TRANSCRIBING
+  SCORING
+  RENDERING
+  COMPLETED
+  FAILED
+}
