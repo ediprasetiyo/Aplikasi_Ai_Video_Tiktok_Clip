@@ -1,0 +1,82 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/
+.pnpm-store/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.uv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Build output
+.next/
+out/
+build/
+dist/
+.turbo/
+
+# Misc
+.DS_Store
+*.pem
+Thumbs.db
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Local env files — JANGAN PERNAH COMMIT
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test
+coverage/
+.nyc_output
+
+# Prisma
+*.db
+*.db-journal
+
+# Logs
+logs/
+*.log
+
+# Worker temp files
+worker/tmp/
+worker/cache/
+*.mp4.tmp
+*.wav.tmp
+
+# Docker volumes (lokal)
+pgdata/
+redisdata/
+miniodata/
+
+# Sentry
+.sentryclirc
+
+# Turbo
+.turbo
